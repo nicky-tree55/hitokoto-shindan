@@ -36,8 +36,11 @@ jobs:
       - name: Lint & format check (Biome)
         run: nix develop --command bun run check
 
+      - name: Typecheck all workspaces
+        run: nix develop --command bun run typecheck
+
       - name: Run tests
         run: nix develop --command bun test
 
-      - name: Build apps/web (includes typecheck)
+      - name: Build apps/web
         run: nix develop --command bun run --filter web build
