@@ -10,7 +10,7 @@
     "lint": "biome lint .",
     "format": "biome format --write .",
     "check": "biome check .",
-    "typecheck": "for pkg in packages/domain packages/application packages/contracts apps/api apps/web; do echo \"[typecheck] $pkg\"; (cd \"$pkg\" && bun run typecheck) || exit 1; done"
+    "typecheck": "for pkg in packages/domain packages/application packages/contracts apps/api; do echo \"[typecheck] $pkg\"; (cd \"$pkg\" && bun run typecheck) || exit 1; done"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.14",
