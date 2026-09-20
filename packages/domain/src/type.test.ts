@@ -22,7 +22,10 @@ describe("createType", () => {
     ["id", { id: "  ", genreId: "personality", name: "リーダー型", description: "説明" }],
     ["genreId", { id: "leader", genreId: "  ", name: "リーダー型", description: "説明" }],
     ["name", { id: "leader", genreId: "personality", name: "  ", description: "説明" }],
-    ["description", { id: "leader", genreId: "personality", name: "リーダー型", description: "  " }],
+    [
+      "description",
+      { id: "leader", genreId: "personality", name: "リーダー型", description: "  " },
+    ],
   ] as const)("throws when %s is empty", (field, input) => {
     expect(() => createType(input)).toThrow(`Type.${field} must not be empty`);
   });
