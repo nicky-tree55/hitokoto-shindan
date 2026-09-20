@@ -1,5 +1,5 @@
 {
-  "name": "@hitokoto-shindan/domain",
+  "name": "@hitokoto-shindan/application",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -9,6 +9,9 @@
   "scripts": {
     "test": "bun test",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hitokoto-shindan/domain": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "latest",
