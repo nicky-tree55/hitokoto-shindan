@@ -47,7 +47,17 @@
 - 依存方向は一方向のみ: presentation → application → domain。
   domain/applicationからapps/*やフレームワークパッケージへの逆流を禁止する。
 
-## 5. Secret管理
+## 5. スキーマ検証ライブラリ
+
+- 実行時スキーマ検証・型推論には **valibot** を使用する（zodは採用しない）。
+  理由: zero-dependency・tree-shakableなpipe/関数合成ベースのAPIで、
+  Cloudflare Workers（`apps/api`）のようなエッジランタイムでのバンドルサイズに有利なため。
+- 共有スキーマは `packages/contracts` に置き、`apps/api`/`apps/web` の双方から参照する。
+  `packages/contracts` は DDD境界上 `domain` に依存してよいが、フレームワーク/ランタイム固有の
+  実装を持ち込まない。
+- valibotの追加はルール1に従い `bun add valibot` 経由で行う（手動での`package.json`編集禁止）。
+
+## 6. Secret管理
 
 - Cloudflare API Token、将来のJev/TypeSafe APIキー等の秘密情報は
   **GitHub Actions Secrets（リポジトリ or 環境単位）にのみ集約する**。
@@ -58,7 +68,7 @@
 - ローカル開発用の `.env` / `.dev.vars` は各開発者が手動で用意し、gitignore対象とする。
   AIエージェントが実際の秘密値を生成・記載することはない。
 
-## 6. その他
+## 7. その他
 
 - PRは1 Issueに対応するスコープに留め、無関係な大規模リファクタを混在させない。
 - 迷った場合はこのファイルのルールを優先し、逸脱する場合はPR本文で理由を明記する。
