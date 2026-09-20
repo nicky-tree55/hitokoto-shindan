@@ -1,0 +1,20 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "test": "bun test",
+    "cf-typegen": "wrangler types"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.2",
+    "@types/node": "^26.6.2",
+    "typescript": "^5.5.2"
+  },
+  "dependencies": {
+    "@hitokoto-shindan/contracts": "workspace:*"
+  }
+}
