@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -22,9 +21,6 @@ jobs:
 
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v23
-
-      - name: Cache Nix store (FlakeHub)
-        uses: DeterminateSystems/flakehub-cache-action@v3.22.5
 
       - name: Cache Bun dependencies
         uses: actions/cache@v4
