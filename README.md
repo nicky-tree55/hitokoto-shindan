@@ -12,3 +12,27 @@ nix develop
 # direnvを使っている場合は、初回のみ許可
 direnv allow
 ```
+
+## リポジトリ構成
+
+Bun workspacesによるmonorepo構成です。
+
+- `apps/*`: プレゼンテーション層（Next.js、Cloudflare Workers等）
+- `packages/*`: `domain`（フレームワーク非依存のドメインロジック）、`application`（ユースケース/interface）等
+
+## セットアップ
+
+```sh
+bun install
+```
+
+## Lint / Format
+
+Lint・FormatにはESLint/Prettierの代わりに [Biome](https://biomejs.dev/) を使用します。
+
+```sh
+bun run lint    # lintのみ
+bun run format  # formatを自動修正
+bun run check   # lint + format + import整理のチェック
+```
+
