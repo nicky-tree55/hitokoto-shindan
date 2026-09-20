@@ -9,3 +9,11 @@ export const HealthResponseSchema = v.object({
 });
 
 export type HealthResponse = v.InferOutput<typeof HealthResponseSchema>;
+
+/**
+ * HealthResponseSchemaに基づいて入力を検証し、検証済みのHealthResponseを返す。
+ * apps/api側でレスポンスを送信する前の防御的なバリデーションに使う。
+ */
+export function parseHealthResponse(input: unknown): HealthResponse {
+  return v.parse(HealthResponseSchema, input);
+}

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import * as v from "valibot";
-import { HealthResponseSchema } from "./health-response";
+import { HealthResponseSchema, parseHealthResponse } from "./health-response";
 
 describe("HealthResponseSchema", () => {
   it("accepts a valid health response", () => {
@@ -18,4 +18,14 @@ describe("HealthResponseSchema", () => {
       expect(result.success).toBe(false);
     },
   );
+});
+
+describe("parseHealthResponse", () => {
+  it("returns the parsed value for a valid input", () => {
+    expect(parseHealthResponse({ status: "ok" })).toEqual({ status: "ok" });
+  });
+
+  it("throws for an invalid input", () => {
+    expect(() => parseHealthResponse({ status: "ng" })).toThrow();
+  });
 });
