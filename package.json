@@ -1,0 +1,19 @@
+{
+  "name": "hitokoto-shindan",
+  "private": true,
+  "version": "0.1.0",
+  "license": "MIT",
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "typecheck": "bun run --filter='*' typecheck",
+    "test": "bun run --filter='*' test",
+    "build": "bun run --filter='*' build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "typescript": "^5.7.2"
+  },
+  "trustedDependencies": ["@biomejs/biome"]
+}
