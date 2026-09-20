@@ -11,6 +11,15 @@ nix develop
 
 # direnvを使っている場合は、初回のみ許可
 direnv allow
+
+# 1コマンドで開発シェルに入り依存関係をインストールする場合
+nix develop -c bun install
+
+# 1コマンドで開発シェルに入り開発サーバを起動する場合（Next.js: apps/web）
+nix develop -c bun run --filter web dev
+
+# 1コマンドで開発シェルに入り開発サーバを起動する場合（Cloudflare Workers: apps/api）
+nix develop -c bun run --filter api dev
 ```
 
 ## リポジトリ構成
