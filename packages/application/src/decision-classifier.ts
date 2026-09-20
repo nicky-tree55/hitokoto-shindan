@@ -1,4 +1,4 @@
-import type { Answer, ClassificationResult } from "domain";
+import type { Answer, ClassificationResult } from "@hitokoto-shindan/domain";
 
 /**
  * DecisionClassifier: 回答一覧から診断結果(ClassificationResult)を導く分類ロジックのinterface。

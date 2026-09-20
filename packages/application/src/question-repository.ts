@@ -1,4 +1,4 @@
-import type { Question } from "domain";
+import type { Question } from "@hitokoto-shindan/domain";
 
 /**
  * QuestionRepository: 特定のGenreに属するQuestionの取得を担うRepositoryのinterface。

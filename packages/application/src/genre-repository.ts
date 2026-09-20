@@ -1,4 +1,4 @@
-import type { Genre } from "domain";
+import type { Genre } from "@hitokoto-shindan/domain";
 
 /**
  * GenreRepository: Genreの永続化・取得を担うRepositoryのinterface。
