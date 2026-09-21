@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+/*
+ * デザイントークン（OKLCH）。
+ * 値はラフ画の「デザインシステム / カラートークン（OKLCH）」パネルに準拠する。
+ * 「Text」は `text-foreground` として利用しやすいよう `--color-foreground` という名前にしている。
+ */
+@theme {
+  --color-background: oklch(0.98 0.01 250);
+  --color-foreground: oklch(0.32 0.02 250);
+  --color-surface: oklch(0.96 0.02 250);
+  --color-primary: oklch(0.62 0.16 247);
+  --color-primary-foreground: oklch(0.98 0.01 250);
+  --color-accent: oklch(0.68 0.12 155);
+  --color-highlight: oklch(0.72 0.14 32);
+  --color-muted: oklch(0.54 0.02 250);
+  --color-border: oklch(0.88 0.02 250);
+  --color-success: oklch(0.66 0.12 155);
+  --color-error: oklch(0.66 0.15 28);
+
+  --font-sans:
+    "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, sans-serif;
+}
+
+/*
+ * base typography。ラフ画の「タイポグラフィ」定義に合わせる。
+ * H1: 2.5rem/700/1.3, H2: 1.75rem/600/1.4, H3: 1.25rem/600/1.5, Body: 1rem/400/1.7, Small: 0.875rem/400/1.5
+ */
+@layer base {
+  html {
+    font-family: var(--font-sans);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  small {
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+}
