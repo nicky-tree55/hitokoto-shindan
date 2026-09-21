@@ -18,7 +18,7 @@ export function QuestionStep({
   return (
     <section
       aria-label="質問"
-      className="flex min-h-dvh flex-col items-center justify-center gap-8 px-4 py-16 transition-opacity duration-300"
+      className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center gap-8 px-4 py-10 transition-opacity duration-300 sm:px-6 sm:py-16"
     >
       <label htmlFor="answerText" className="max-w-xl text-center text-balance">
         {question.text}

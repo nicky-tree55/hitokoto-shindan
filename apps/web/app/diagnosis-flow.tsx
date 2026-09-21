@@ -45,12 +45,19 @@ export default function DiagnosisFlow() {
   }, []);
 
   if (loadState.status === "loading") {
-    return <p className="p-6 text-center text-muted">質問を読み込み中です...</p>;
+    return (
+      <p className="flex flex-1 items-center justify-center p-6 text-center text-muted">
+        質問を読み込み中です...
+      </p>
+    );
   }
 
   if (loadState.status === "error") {
     return (
-      <p role="alert" className="p-6 text-center text-error">
+      <p
+        role="alert"
+        className="flex flex-1 items-center justify-center p-6 text-center text-error"
+      >
         質問の読み込みに失敗しました: {loadState.message}
       </p>
     );

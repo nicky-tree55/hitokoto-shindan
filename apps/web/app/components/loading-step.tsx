@@ -9,7 +9,7 @@ export function LoadingStep() {
     <section
       aria-label="診断中"
       aria-live="polite"
-      className="flex min-h-dvh flex-col items-center justify-center gap-4 px-4 py-16 transition-opacity duration-300"
+      className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center gap-4 px-4 py-10 transition-opacity duration-300 sm:py-16"
     >
       <div className="h-3 w-3 animate-pulse rounded-full bg-primary" />
       <p className="text-muted">診断中…</p>

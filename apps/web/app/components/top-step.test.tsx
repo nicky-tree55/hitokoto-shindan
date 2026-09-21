@@ -3,11 +3,13 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { TopStep } from "./top-step";
 
 describe("TopStep", () => {
-  it("renders the headline, free-input form, and genre entry point", () => {
+  it("renders the headline, free-input form, and genre selection chips", () => {
     const html = renderToStaticMarkup(<TopStep formAction={() => {}} onSelectGenre={() => {}} />);
 
     expect(html).toContain("考えていることを");
-    expect(html).toContain("ジャンルから選ぶ");
+    expect(html).toContain("選べるジャンル");
+    expect(html).toContain("動物");
+    expect(html).toContain("その他");
   });
 
   it("renders the error message when provided", () => {
