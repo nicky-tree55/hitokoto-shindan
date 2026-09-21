@@ -27,7 +27,41 @@ nix develop -c bun run --filter api dev
 Bun workspacesによるmonorepo構成です。
 
 - `apps/*`: プレゼンテーション層（Next.js、Cloudflare Workers等）
-- `packages/*`: `domain`（フレームワーク非依存のドメインロジック）、`application`（ユースケース/interface）等
+- `packages/*`: `domain`（フレームワーク非依存のドメインロジック）、`application`（ユースケース/interface）、
+  `contracts`（apps間で共有するvalibotスキーマ）、`infrastructure`（Repository/DecisionClassifierのモック実装。
+  Jevによる実際の分類ロジックはまだ実装しておらず、固定の診断結果を返すモックで代替している）
+
+## ローカルで質問→診断結果（モック）を確認する
+
+apps/api（Cloudflare Worker）と apps/web（Next.js）を同時に起動すると、
+ローカルで「質問に回答→診断結果が返る」までの一連の流れを確認できます。
+現時点では診断ロジック（Jev）はモック実装のため、常に固定の診断結果が返ります。
+
+```sh
+# 依存関係のインストール（初回のみ）
+nix develop -c bun install
+
+# apps/web用の環境変数ファイルを用意（apps/api のURLを指す）
+cp apps/web/.env.example apps/web/.env.local
+
+# ターミナル1: apps/api を起動（http://localhost:8787）
+nix develop -c bun run --filter api dev
+
+# ターミナル2: apps/web を起動（http://localhost:3000）
+nix develop -c bun run --filter web dev
+```
+
+`http://localhost:3000` をブラウザで開き、質問に回答して「診断する」ボタンを押すと、
+apps/api の `POST /genres/:id/diagnose` 経由で診断結果（Type名・説明・score）が表示されます。
+
+apps/api が公開する主なエンドポイント:
+
+| メソッド | パス | 内容 |
+|---|---|---|
+| GET | `/health` | 疎通確認用 |
+| GET | `/genres` | ジャンル一覧（モックデータ、単一ジャンルのみ） |
+| GET | `/genres/:id/questions` | 指定ジャンルの質問一覧 |
+| POST | `/genres/:id/diagnose` | 回答一覧から診断結果を返す（モックDecisionClassifierのため常に固定結果） |
 
 ## セットアップ
 
@@ -44,4 +78,14 @@ bun run lint    # lintのみ
 bun run format  # formatを自動修正
 bun run check   # lint + format + import整理のチェック
 ```
+
+## 動作確認コマンド
+
+```sh
+nix develop -c bun run check       # Biome (lint + format + import整理)
+nix develop -c bun run typecheck   # domain/application/contracts/infrastructure/apps/api の型検査
+nix develop -c bun test            # 全ワークスペースのユニットテスト
+nix develop -c bun run --filter web build   # apps/web の静的書き出しビルド
+```
+
 
