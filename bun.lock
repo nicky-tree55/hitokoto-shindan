@@ -67,6 +67,18 @@
         "typescript": "^7.0.2",
       },
     },
+    "packages/infrastructure": {
+      "name": "@hitokoto-shindan/infrastructure",
+      "version": "0.0.0",
+      "dependencies": {
+        "@hitokoto-shindan/application": "workspace:*",
+        "@hitokoto-shindan/domain": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/bun": "latest",
+        "typescript": "^7.0.2",
+      },
+    },
   },
   "trustedDependencies": [
     "sharp",
@@ -97,6 +109,8 @@
     "@hitokoto-shindan/contracts": ["@hitokoto-shindan/contracts@workspace:packages/contracts"],
 
     "@hitokoto-shindan/domain": ["@hitokoto-shindan/domain@workspace:packages/domain"],
+
+    "@hitokoto-shindan/infrastructure": ["@hitokoto-shindan/infrastructure@workspace:packages/infrastructure"],
 
     "@img/colour": ["@img/colour@1.1.0", "", {}, "sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ=="],
 
