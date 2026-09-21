@@ -3,10 +3,10 @@ import { renderToStaticMarkup } from "react-dom/server";
 import Home from "./page";
 
 describe("Home page", () => {
-  it("renders Hello World and One Line Diagnosis", () => {
+  it("renders the page title and the initial loading state", () => {
     const html = renderToStaticMarkup(<Home />);
 
-    expect(html).toContain("Hello World");
     expect(html).toContain("One Line Diagnosis");
+    expect(html).toContain("質問を読み込み中です");
   });
 });

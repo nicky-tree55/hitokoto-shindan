@@ -29,6 +29,7 @@
       "name": "web",
       "version": "0.1.0",
       "dependencies": {
+        "@hitokoto-shindan/contracts": "workspace:*",
         "next": "16.3.5",
         "react": "19.2.8",
         "react-dom": "19.2.8",
