@@ -14,7 +14,10 @@
       "name": "api",
       "version": "0.0.0",
       "dependencies": {
+        "@hitokoto-shindan/application": "workspace:*",
         "@hitokoto-shindan/contracts": "workspace:*",
+        "@hitokoto-shindan/domain": "workspace:*",
+        "@hitokoto-shindan/infrastructure": "workspace:*",
       },
       "devDependencies": {
         "@types/bun": "^1.4.2",
