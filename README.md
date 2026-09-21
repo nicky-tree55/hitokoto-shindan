@@ -41,15 +41,15 @@ apps/api（Cloudflare Worker）と apps/web（Next.js）を同時に起動する
 # 依存関係のインストール（初回のみ）
 nix develop -c bun install
 
-# apps/web用の環境変数ファイルを用意（apps/api のURLを指す）
+# apps/web用の環境変数ファイルを用意（apps/api のURLを指す、初回のみ）
 cp apps/web/.env.example apps/web/.env.local
 
-# ターミナル1: apps/api を起動（http://localhost:8787）
-nix develop -c bun run --filter api dev
-
-# ターミナル2: apps/web を起動（http://localhost:3000）
-nix develop -c bun run --filter web dev
+# ワンラインでapps/api（http://localhost:8787）とapps/web（http://localhost:3000）を同時起動
+nix develop -c bun run dev
 ```
+
+（各アプリを個別に起動したい場合は `nix develop -c bun run --filter api dev` /
+`nix develop -c bun run --filter web dev` をそれぞれ別ターミナルで実行してください。）
 
 `http://localhost:3000` をブラウザで開き、質問に回答して「診断する」ボタンを押すと、
 apps/api の `POST /genres/:id/diagnose` 経由で診断結果（Type名・説明・score）が表示されます。
