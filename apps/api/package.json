@@ -16,6 +16,9 @@
     "typescript": "^5.5.2"
   },
   "dependencies": {
-    "@hitokoto-shindan/contracts": "workspace:*"
+    "@hitokoto-shindan/application": "workspace:*",
+    "@hitokoto-shindan/contracts": "workspace:*",
+    "@hitokoto-shindan/domain": "workspace:*",
+    "@hitokoto-shindan/infrastructure": "workspace:*"
   }
 }
