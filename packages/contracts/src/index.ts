@@ -1,11 +1,5 @@
-export type {
-  DiagnoseAnswer,
-  DiagnoseRequest,
-  DiagnoseResponse,
-  DiagnosisType,
-} from "./diagnose";
+export type { DiagnoseRequest, DiagnoseResponse, DiagnosisType } from "./diagnose";
 export {
-  DiagnoseAnswerSchema,
   DiagnoseRequestSchema,
   DiagnoseResponseSchema,
   DiagnosisTypeSchema,
@@ -17,10 +11,5 @@ export type { Genre, GenresResponse } from "./genre";
 export { GenreSchema, GenresResponseSchema, parseGenresResponse } from "./genre";
 export type { HealthResponse } from "./health-response";
 export { HealthResponseSchema, parseHealthResponse } from "./health-response";
-export type { Answer, Question, QuestionsResponse } from "./question";
-export {
-  AnswerSchema,
-  parseQuestionsResponse,
-  QuestionSchema,
-  QuestionsResponseSchema,
-} from "./question";
+export type { Question, QuestionResponse } from "./question";
+export { parseQuestionResponse, QuestionResponseSchema, QuestionSchema } from "./question";

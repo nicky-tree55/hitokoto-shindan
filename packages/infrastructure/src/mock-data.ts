@@ -1,6 +1,4 @@
 import {
-  type Answer,
-  createAnswer,
   createGenre,
   createQuestion,
   createType,
@@ -11,7 +9,7 @@ import {
 
 /**
  * mock-data: Jevによる実際の分類ロジックが実装されるまでの間、疎通確認用に用意する
- * ハードコードされたGenre/Type/Questionのデータ。単一ジャンル（性格診断）のみを対象とする。
+ * ハードコードされたGenre/Type/Questionのデータ。単一ジャンル（性格診断）・単一の質問のみを対象とする。
  */
 
 export const mockGenre: Genre = createGenre({ id: "personality", name: "性格診断" });
@@ -31,38 +29,8 @@ export const mockTypes: readonly Type[] = [
   }),
 ];
 
-function createMockAnswers(
-  questionId: string,
-  leaderText: string,
-  supporterText: string,
-): readonly Answer[] {
-  return [
-    createAnswer({ id: `${questionId}-leader`, text: leaderText, typeId: "leader" }),
-    createAnswer({ id: `${questionId}-supporter`, text: supporterText, typeId: "supporter" }),
-  ];
-}
-
-export const mockQuestions: readonly Question[] = [
-  createQuestion({
-    id: "q1",
-    genreId: mockGenre.id,
-    text: "新しい企画では、まず何をしますか？",
-    answers: createMockAnswers(
-      "q1",
-      "率先してみんなに声をかける",
-      "困っている人がいないか確認する",
-    ),
-  }),
-  createQuestion({
-    id: "q2",
-    genreId: mockGenre.id,
-    text: "グループ作業での役割は？",
-    answers: createMockAnswers("q2", "方向性を決めて引っ張る", "細部を整えて支える"),
-  }),
-  createQuestion({
-    id: "q3",
-    genreId: mockGenre.id,
-    text: "休日の過ごし方は？",
-    answers: createMockAnswers("q3", "新しい場所に出かける", "落ち着いて計画を立てる"),
-  }),
-];
+export const mockQuestion: Question = createQuestion({
+  id: "q1",
+  genreId: mockGenre.id,
+  text: "最近あった出来事について、そのときどう考えて行動したか自由に教えてください。",
+});

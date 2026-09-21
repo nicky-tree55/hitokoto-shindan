@@ -1,20 +1,17 @@
-import type { Answer } from "./answer";
-
 /**
- * Question: あるGenreに属する質問。1つ以上のAnswer（選択肢）を持つ。
+ * Question: あるGenreに属する質問。フリーテキストで回答されることを前提とする
+ * （選択式のAnswerは持たない。実際の分類はJevによる自然文解釈に委ねる）。
  */
 export interface Question {
   readonly id: string;
   readonly genreId: string;
   readonly text: string;
-  readonly answers: readonly Answer[];
 }
 
 export interface CreateQuestionInput {
   readonly id: string;
   readonly genreId: string;
   readonly text: string;
-  readonly answers: readonly Answer[];
 }
 
 export function createQuestion(input: CreateQuestionInput): Question {
@@ -31,9 +28,6 @@ export function createQuestion(input: CreateQuestionInput): Question {
   if (text.length === 0) {
     throw new Error("Question.text must not be empty");
   }
-  if (input.answers.length === 0) {
-    throw new Error("Question.answers must have at least one Answer");
-  }
 
-  return { id, genreId, text, answers: input.answers };
+  return { id, genreId, text };
 }
