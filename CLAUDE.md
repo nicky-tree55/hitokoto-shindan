@@ -72,3 +72,18 @@
 
 - PRは1 Issueに対応するスコープに留め、無関係な大規模リファクタを混在させない。
 - 迷った場合はこのファイルのルールを優先し、逸脱する場合はPR本文で理由を明記する。
+
+## 8. 開発環境はNix経由で統一する
+
+- このリポジトリは `flake.nix` でBun/Wranglerのバージョンを固定した開発環境を提供している。
+  ローカル・CIともに **`nix develop` 経由でツールチェーンを使うこと**。
+  - シェルに入る: `nix develop`
+  - ワンショット実行: `nix develop -c <command>`（例: `nix develop -c bun install`）
+  - direnvを使う場合は `.envrc` に `use flake` を設定し `direnv allow` する。
+- `bun`/`wrangler` のバージョンをホストにグローバルインストールしたものに依存しない。
+  バージョン変更は `flake.nix`（`pkgs.bun` / `pkgs.wrangler` の差し替えやnixpkgs入力更新）で行い、
+  手動でのバイナリ導入は避ける。
+- `flake.nix`/`flake.lock` の変更はルール1に準じ、`nix flake update` 等のコマンド経由で行い、
+  `flake.lock` の手動編集は禁止する。
+- 新たにネイティブツールやCLIが必要になった場合は、まず `flake.nix` の `devShells.default.packages`
+  に追加できないか検討し、追加した場合はREADME等の該当箇所も更新する。
