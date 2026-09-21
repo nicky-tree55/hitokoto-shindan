@@ -1,21 +1,12 @@
 import * as v from "valibot";
 
 /**
- * DiagnoseAnswerSchema: 診断リクエストにおける1件の回答。
- * どの質問(questionId)に対してどの選択肢(answerId)を選んだかを表す。
- */
-export const DiagnoseAnswerSchema = v.object({
-  questionId: v.string(),
-  answerId: v.string(),
-});
-
-export type DiagnoseAnswer = v.InferOutput<typeof DiagnoseAnswerSchema>;
-
-/**
  * DiagnoseRequestSchema: apps/api の POST /genres/:id/diagnose エンドポイントのリクエストボディ形式。
+ * 質問は1問・回答はフリーテキストのため、どの質問(questionId)に対する自由記述回答(answerText)かを表す。
  */
 export const DiagnoseRequestSchema = v.object({
-  answers: v.array(DiagnoseAnswerSchema),
+  questionId: v.string(),
+  answerText: v.pipe(v.string(), v.minLength(1)),
 });
 
 export type DiagnoseRequest = v.InferOutput<typeof DiagnoseRequestSchema>;

@@ -1,8 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import {
-  type Answer,
   type ClassificationResult,
-  createAnswer,
   createClassificationResult,
   createGenre,
   createQuestion,
@@ -10,7 +8,7 @@ import {
   type Genre,
   type Question,
 } from "@hitokoto-shindan/domain";
-import { ClassifyAnswersUseCase } from "./classify-answers-use-case";
+import { ClassifyAnswerUseCase } from "./classify-answer-use-case";
 import type { DecisionClassifier } from "./decision-classifier";
 import type { GenreRepository } from "./genre-repository";
 import type { QuestionRepository } from "./question-repository";
@@ -22,12 +20,10 @@ const type = createType({
   name: "情熱的リーダー型",
   description: "周囲を巻き込みながら先頭に立つタイプ",
 });
-const answer: Answer = createAnswer({ id: "a1", text: "はい", typeId: type.id });
 const question: Question = createQuestion({
   id: "q1",
   genreId: genre.id,
   text: "朝は得意ですか？",
-  answers: [answer],
 });
 
 class FakeGenreRepository implements GenreRepository {
@@ -41,9 +37,9 @@ class FakeGenreRepository implements GenreRepository {
 }
 
 class FakeQuestionRepository implements QuestionRepository {
-  constructor(private readonly questions: readonly Question[]) {}
-  async findByGenreId(genreId: string): Promise<readonly Question[]> {
-    return this.questions.filter((q) => q.genreId === genreId);
+  constructor(private readonly question: Question | undefined) {}
+  async findByGenreId(): Promise<Question | undefined> {
+    return this.question;
   }
 }
 
@@ -54,27 +50,39 @@ class FakeDecisionClassifier implements DecisionClassifier {
   }
 }
 
-describe("ClassifyAnswersUseCase", () => {
-  it("delegates to the classifier once the genre is found", async () => {
+describe("ClassifyAnswerUseCase", () => {
+  it("delegates to the classifier once the genre and question are found", async () => {
     const expected = createClassificationResult({ type, score: 1 });
-    const useCase = new ClassifyAnswersUseCase(
+    const useCase = new ClassifyAnswerUseCase(
       new FakeGenreRepository([genre]),
-      new FakeQuestionRepository([question]),
+      new FakeQuestionRepository(question),
       new FakeDecisionClassifier(expected),
     );
 
-    const result = await useCase.execute(genre.id, [answer]);
+    const result = await useCase.execute(genre.id, "朝からしっかり活動できます。");
 
     expect(result).toEqual(expected);
   });
 
   it("throws when the genre does not exist", async () => {
-    const useCase = new ClassifyAnswersUseCase(
+    const useCase = new ClassifyAnswerUseCase(
       new FakeGenreRepository([]),
-      new FakeQuestionRepository([]),
+      new FakeQuestionRepository(question),
       new FakeDecisionClassifier(createClassificationResult({ type, score: 0 })),
     );
 
-    await expect(useCase.execute("unknown", [answer])).rejects.toThrow("Genre not found: unknown");
+    await expect(useCase.execute("unknown", "回答")).rejects.toThrow("Genre not found: unknown");
+  });
+
+  it("throws when the genre has no question", async () => {
+    const useCase = new ClassifyAnswerUseCase(
+      new FakeGenreRepository([genre]),
+      new FakeQuestionRepository(undefined),
+      new FakeDecisionClassifier(createClassificationResult({ type, score: 0 })),
+    );
+
+    await expect(useCase.execute(genre.id, "回答")).rejects.toThrow(
+      `Question not found for genre: ${genre.id}`,
+    );
   });
 });

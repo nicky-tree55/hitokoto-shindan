@@ -15,6 +15,16 @@ function toIncomingRequest(
   return new Request(input, init) as unknown as Request<unknown, IncomingRequestCfProperties>;
 }
 
+async function fetchFirstGenreId(): Promise<string> {
+  const genresResponse = await worker.fetch(
+    toIncomingRequest("http://example.com/genres"),
+    env,
+    ctx,
+  );
+  const { genres } = (await genresResponse.json()) as { genres: { id: string }[] };
+  return genres[0].id;
+}
+
 describe("GET /health", () => {
   it("returns a validated ok response", async () => {
     const request = toIncomingRequest("http://example.com/health");
@@ -55,29 +65,24 @@ describe("GET /genres", () => {
   });
 });
 
-describe("GET /genres/:id/questions", () => {
-  it("returns the questions for a known genre", async () => {
-    const genresResponse = await worker.fetch(
-      toIncomingRequest("http://example.com/genres"),
-      env,
-      ctx,
-    );
-    const { genres } = (await genresResponse.json()) as { genres: { id: string }[] };
-    const genreId = genres[0].id;
+describe("GET /genres/:id/question", () => {
+  it("returns the single free-text question for a known genre", async () => {
+    const genreId = await fetchFirstGenreId();
 
     const response = await worker.fetch(
-      toIncomingRequest(`http://example.com/genres/${genreId}/questions`),
+      toIncomingRequest(`http://example.com/genres/${genreId}/question`),
       env,
       ctx,
     );
-    const body = (await response.json()) as { questions: { id: string; answers: unknown[] }[] };
+    const body = (await response.json()) as { question: { id: string; text: string } };
 
     expect(response.status).toBe(200);
-    expect(body.questions.length).toBeGreaterThan(0);
+    expect(body.question.id).toBeTruthy();
+    expect(body.question.text.length).toBeGreaterThan(0);
   });
 
   it("returns 404 for an unknown genre", async () => {
-    const request = toIncomingRequest("http://example.com/genres/unknown/questions");
+    const request = toIncomingRequest("http://example.com/genres/unknown/question");
 
     const response = await worker.fetch(request, env, ctx);
 
@@ -87,28 +92,19 @@ describe("GET /genres/:id/questions", () => {
 
 describe("POST /genres/:id/diagnose", () => {
   it("returns a fixed classification result for a valid request", async () => {
-    const genresResponse = await worker.fetch(
-      toIncomingRequest("http://example.com/genres"),
-      env,
-      ctx,
-    );
-    const { genres } = (await genresResponse.json()) as { genres: { id: string }[] };
-    const genreId = genres[0].id;
+    const genreId = await fetchFirstGenreId();
 
-    const questionsResponse = await worker.fetch(
-      toIncomingRequest(`http://example.com/genres/${genreId}/questions`),
+    const questionResponse = await worker.fetch(
+      toIncomingRequest(`http://example.com/genres/${genreId}/question`),
       env,
       ctx,
     );
-    const { questions } = (await questionsResponse.json()) as {
-      questions: { id: string; answers: { id: string }[] }[];
-    };
-    const answers = questions.map((q) => ({ questionId: q.id, answerId: q.answers[0].id }));
+    const { question } = (await questionResponse.json()) as { question: { id: string } };
 
     const request = toIncomingRequest(`http://example.com/genres/${genreId}/diagnose`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ answers }),
+      body: JSON.stringify({ questionId: question.id, answerText: "朝から活動的に過ごしました。" }),
     });
 
     const response = await worker.fetch(request, env, ctx);
@@ -123,7 +119,21 @@ describe("POST /genres/:id/diagnose", () => {
     const request = toIncomingRequest("http://example.com/genres/unknown/diagnose", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ answers: [] }),
+      body: JSON.stringify({ questionId: "q1", answerText: "回答" }),
+    });
+
+    const response = await worker.fetch(request, env, ctx);
+
+    expect(response.status).toBe(404);
+  });
+
+  it("returns 404 when the questionId does not match the genre's question", async () => {
+    const genreId = await fetchFirstGenreId();
+
+    const request = toIncomingRequest(`http://example.com/genres/${genreId}/diagnose`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ questionId: "unknown-question", answerText: "回答" }),
     });
 
     const response = await worker.fetch(request, env, ctx);
@@ -132,18 +142,12 @@ describe("POST /genres/:id/diagnose", () => {
   });
 
   it("returns 400 for an invalid request body", async () => {
-    const genresResponse = await worker.fetch(
-      toIncomingRequest("http://example.com/genres"),
-      env,
-      ctx,
-    );
-    const { genres } = (await genresResponse.json()) as { genres: { id: string }[] };
-    const genreId = genres[0].id;
+    const genreId = await fetchFirstGenreId();
 
     const request = toIncomingRequest(`http://example.com/genres/${genreId}/diagnose`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ answers: [{ questionId: "q1" }] }),
+      body: JSON.stringify({ questionId: "q1", answerText: "" }),
     });
 
     const response = await worker.fetch(request, env, ctx);

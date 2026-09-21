@@ -1,5 +1,3 @@
-export type { Answer, CreateAnswerInput } from "./answer";
-export { createAnswer } from "./answer";
 export type {
   ClassificationResult,
   CreateClassificationResultInput,

@@ -34,7 +34,8 @@ Bun workspacesによるmonorepo構成です。
 ## ローカルで質問→診断結果（モック）を確認する
 
 apps/api（Cloudflare Worker）と apps/web（Next.js）を同時に起動すると、
-ローカルで「質問に回答→診断結果が返る」までの一連の流れを確認できます。
+ローカルで「質問（1問・フリーテキスト回答）に回答→診断結果が返る」までの一連の流れを確認できます。
+質問は1問のみのフリーテキスト形式とし、将来Jevへ自然文を渡して解釈させることを見据えた構成にしています。
 現時点では診断ロジック（Jev）はモック実装のため、常に固定の診断結果が返ります。
 
 ```sh
@@ -51,8 +52,11 @@ nix develop -c bun run dev
 （各アプリを個別に起動したい場合は `nix develop -c bun run --filter api dev` /
 `nix develop -c bun run --filter web dev` をそれぞれ別ターミナルで実行してください。）
 
-`http://localhost:3000` をブラウザで開き、質問に回答して「診断する」ボタンを押すと、
+`http://localhost:3000` をブラウザで開き、フリーテキストで回答して「診断する」ボタンを押すと、
 apps/api の `POST /genres/:id/diagnose` 経由で診断結果（Type名・説明・score）が表示されます。
+apps/web は静的export（Cloudflare Pages配信）のためサーバーサイド実行を持たず、
+質問の取得・診断結果の送信はいずれもブラウザから直接apps/apiを呼び出します。
+送信状態・結果の管理には React の `useActionState` を使い、手動の `useState` によるフォーム送信状態管理を排除しています。
 
 apps/api が公開する主なエンドポイント:
 
@@ -60,8 +64,8 @@ apps/api が公開する主なエンドポイント:
 |---|---|---|
 | GET | `/health` | 疎通確認用 |
 | GET | `/genres` | ジャンル一覧（モックデータ、単一ジャンルのみ） |
-| GET | `/genres/:id/questions` | 指定ジャンルの質問一覧 |
-| POST | `/genres/:id/diagnose` | 回答一覧から診断結果を返す（モックDecisionClassifierのため常に固定結果） |
+| GET | `/genres/:id/question` | 指定ジャンルの質問（1問・フリーテキスト回答を前提とする） |
+| POST | `/genres/:id/diagnose` | `{ questionId, answerText }` から診断結果を返す（モックDecisionClassifierのため常に固定結果） |
 
 ## セットアップ
 

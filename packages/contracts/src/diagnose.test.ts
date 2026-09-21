@@ -18,33 +18,32 @@ const validType = {
 describe("DiagnoseRequestSchema", () => {
   it("accepts a valid diagnose request", () => {
     const result = v.safeParse(DiagnoseRequestSchema, {
-      answers: [{ questionId: "q1", answerId: "a1" }],
+      questionId: "q1",
+      answerText: "朝からしっかり活動できます。",
     });
 
     expect(result.success).toBe(true);
   });
 
-  it("accepts an empty answers array", () => {
-    expect(v.safeParse(DiagnoseRequestSchema, { answers: [] }).success).toBe(true);
+  it.each([
+    {},
+    { questionId: "q1" },
+    { questionId: "q1", answerText: "" },
+    { questionId: "q1", answerText: 123 },
+  ])("rejects an invalid diagnose request: %j", (input) => {
+    expect(v.safeParse(DiagnoseRequestSchema, input).success).toBe(false);
   });
-
-  it.each([{}, { answers: [{ questionId: "q1" }] }, { answers: "not-an-array" }])(
-    "rejects an invalid diagnose request: %j",
-    (input) => {
-      expect(v.safeParse(DiagnoseRequestSchema, input).success).toBe(false);
-    },
-  );
 });
 
 describe("parseDiagnoseRequest", () => {
   it("returns the parsed value for a valid input", () => {
-    const input = { answers: [{ questionId: "q1", answerId: "a1" }] };
+    const input = { questionId: "q1", answerText: "朝からしっかり活動できます。" };
 
     expect(parseDiagnoseRequest(input)).toEqual(input);
   });
 
   it("throws for an invalid input", () => {
-    expect(() => parseDiagnoseRequest({ answers: [{ questionId: "q1" }] })).toThrow();
+    expect(() => parseDiagnoseRequest({ questionId: "q1", answerText: "" })).toThrow();
   });
 });
 
