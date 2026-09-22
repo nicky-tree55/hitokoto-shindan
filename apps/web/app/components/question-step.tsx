@@ -2,7 +2,8 @@ import type { Question } from "@hitokoto-shindan/contracts";
 
 /**
  * QuestionStep: ジャンル選択後に表示する、質問文 + 自由回答フォーム。
- * デザインの詳細（レイアウト・レスポンシブ対応）は #48 で仕上げる。
+ * 優先順位（質問 > 自由入力 > 回答ボタン）に沿って、質問文を大きめに、
+ * 回答ボタンをタップしやすいサイズで配置する。
  */
 export function QuestionStep({
   question,
@@ -18,9 +19,21 @@ export function QuestionStep({
   return (
     <section
       aria-label="質問"
-      className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center gap-8 px-4 py-10 transition-opacity duration-300 sm:px-6 sm:py-16"
+      className="relative mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center gap-8 px-4 py-10 transition-opacity duration-300 sm:px-6 sm:py-16"
     >
-      <label htmlFor="answerText" className="max-w-xl text-center text-balance">
+      <button
+        type="button"
+        onClick={onBack}
+        aria-label="トップに戻る"
+        className="absolute top-4 left-4 flex h-10 w-10 items-center justify-center rounded-full text-muted transition-colors duration-150 hover:bg-surface hover:text-foreground sm:top-6 sm:left-6"
+      >
+        ←
+      </button>
+
+      <label
+        htmlFor="answerText"
+        className="max-w-xl text-center text-xl font-semibold text-balance sm:text-2xl"
+      >
         {question.text}
       </label>
 
@@ -31,11 +44,11 @@ export function QuestionStep({
           rows={4}
           required
           placeholder="自由に入力してください…"
-          className="min-h-32 w-full rounded-2xl border border-border bg-surface p-4 text-foreground outline-none placeholder:text-muted"
+          className="min-h-32 w-full rounded-2xl border border-border bg-surface p-4 text-foreground outline-none placeholder:text-muted sm:p-5"
         />
         <button
           type="submit"
-          className="self-center rounded-full bg-foreground px-8 py-3 text-primary-foreground transition-transform duration-150 active:scale-95"
+          className="self-center rounded-full bg-foreground px-10 py-3.5 text-primary-foreground transition-transform duration-150 active:scale-95 sm:px-12 sm:py-4"
         >
           診断する
         </button>
@@ -45,15 +58,6 @@ export function QuestionStep({
           </p>
         )}
       </form>
-
-      <button
-        type="button"
-        onClick={onBack}
-        aria-label="トップに戻る"
-        className="text-muted underline decoration-border underline-offset-4 transition-colors duration-150 hover:text-foreground"
-      >
-        ← 戻る
-      </button>
     </section>
   );
 }
