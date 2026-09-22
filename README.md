@@ -97,6 +97,7 @@ nix develop -c bun run --filter web build   # apps/web の静的書き出しビ�
 `main` へのpush時に、以下のワークフローが自動でCloudflareへデプロイします。
 
 - `.github/workflows/deploy-pages.yml`: `apps/web` を静的exportビルドし、`wrangler pages deploy` でCloudflare Pages（プロジェクト名: `hitokoto-shindan-web`）へデプロイ
+- `.github/workflows/deploy-worker.yml`: `apps/api` を `wrangler deploy` でCloudflare Workersへデプロイ
 
 これらのワークフローを実行するには、リポジトリの Settings > Secrets and variables > Actions に以下のSecretsを設定してください。
 
