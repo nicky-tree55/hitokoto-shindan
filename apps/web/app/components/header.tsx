@@ -4,7 +4,7 @@
  */
 export function Header() {
   return (
-    <header className="flex shrink-0 items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+    <header className="flex shrink-0 items-center justify-between px-4 pt-[calc(env(safe-area-inset-top)+1rem)] pb-4 sm:px-6 lg:px-8">
       <span className="text-base font-bold tracking-wide sm:text-lg">一問一言</span>
       <div className="flex items-center gap-4 text-xs text-muted sm:text-sm">
         <span>使い方</span>

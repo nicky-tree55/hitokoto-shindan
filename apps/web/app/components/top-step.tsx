@@ -36,12 +36,12 @@ export function TopStep({
             name="answerText"
             required
             placeholder="今、考えていることや悩みを自由に書いてください…"
-            className="min-h-12 min-w-0 flex-1 bg-transparent text-foreground outline-none placeholder:text-muted"
+            className="min-h-12 min-w-0 flex-1 bg-transparent text-foreground outline-none placeholder:text-muted focus-visible:ring-2 focus-visible:ring-primary"
           />
           <button
             type="submit"
             aria-label="診断する"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-foreground text-primary-foreground transition-transform duration-150 active:scale-95"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-foreground text-primary-foreground transition-transform duration-150 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             →
           </button>

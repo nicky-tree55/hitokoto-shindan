@@ -113,14 +113,15 @@ export function ResultStep({
         <button
           type="button"
           onClick={onRestart}
-          className="w-full min-h-12 rounded-full bg-foreground px-8 py-3 text-primary-foreground transition-transform duration-150 active:scale-95 sm:w-auto"
+          className="w-full min-h-12 rounded-full bg-foreground px-8 py-3 text-primary-foreground transition-transform duration-150 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:w-auto"
         >
           もう一度
         </button>
         <button
           type="button"
           onClick={handleShare}
-          className="w-full min-h-12 rounded-full border border-border px-8 py-3 text-foreground transition-transform duration-150 active:scale-95 sm:w-auto"
+          aria-live="polite"
+          className="w-full min-h-12 rounded-full border border-border px-8 py-3 text-foreground transition-transform duration-150 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:w-auto"
         >
           {shareLabel}
         </button>
