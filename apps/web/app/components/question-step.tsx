@@ -25,7 +25,7 @@ export function QuestionStep({
         type="button"
         onClick={onBack}
         aria-label="トップに戻る"
-        className="absolute top-4 left-4 flex h-10 w-10 items-center justify-center rounded-full text-muted transition-colors duration-150 hover:bg-surface hover:text-foreground sm:top-6 sm:left-6"
+        className="absolute top-4 left-4 flex h-11 w-11 items-center justify-center rounded-full text-muted transition-colors duration-150 hover:bg-surface hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:top-6 sm:left-6"
       >
         ←
       </button>
@@ -44,11 +44,11 @@ export function QuestionStep({
           rows={4}
           required
           placeholder="自由に入力してください…"
-          className="min-h-32 w-full rounded-2xl border border-border bg-surface p-4 text-foreground outline-none placeholder:text-muted sm:p-5"
+          className="min-h-32 w-full rounded-2xl border border-border bg-surface p-4 text-foreground outline-none placeholder:text-muted focus-visible:ring-2 focus-visible:ring-primary sm:p-5"
         />
         <button
           type="submit"
-          className="self-center rounded-full bg-foreground px-10 py-3.5 text-primary-foreground transition-transform duration-150 active:scale-95 sm:px-12 sm:py-4"
+          className="self-center rounded-full bg-foreground px-10 py-3.5 text-primary-foreground transition-transform duration-150 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:px-12 sm:py-4"
         >
           診断する
         </button>

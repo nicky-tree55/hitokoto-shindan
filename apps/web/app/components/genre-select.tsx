@@ -28,7 +28,7 @@ export function GenreSelect({ onSelect }: { onSelect: () => void }) {
             <button
               type="button"
               onClick={onSelect}
-              className="flex flex-col items-center gap-1.5 rounded-2xl px-1 py-1 transition-transform duration-150 active:scale-95"
+              className="flex flex-col items-center gap-1.5 rounded-2xl px-1 py-1 transition-transform duration-150 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               <span
                 aria-hidden
