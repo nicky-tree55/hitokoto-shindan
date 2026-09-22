@@ -106,4 +106,14 @@ nix develop -c bun run --filter web build   # apps/web の静的書き出しビ�
 | `CLOUDFLARE_API_TOKEN` | Cloudflareダッシュボードで発行するAPIトークン（Workers編集・Pages編集権限が必要） |
 | `CLOUDFLARE_ACCOUNT_ID` | デプロイ先のCloudflareアカウントID |
 
+### Rollback
+
+`.github/workflows/rollback.yml` を `workflow_dispatch` で手動実行すると、指定したgit ref（タグ名やコミットSHA）の状態でPages/Workerを再デプロイできます。
+
+1. GitHubリポジトリの **Actions** タブ → **Rollback** ワークフローを選択
+2. **Run workflow** から以下を入力
+   - `ref`: ロールバック先のタグ名 or コミットSHA
+   - `target`: `both`（Pages/Worker両方） / `pages` / `worker` のいずれか
+3. 実行すると、指定refをcheckoutした上でビルド・デプロイが行われる
+
 
